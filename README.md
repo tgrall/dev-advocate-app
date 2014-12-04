@@ -44,7 +44,7 @@ Simply execute the ./bin/server.sh script with node, npm or supervisor
 
 The application contains few tests (yes, only few of them... this is bad), run them using
 
-    * npm test
+    npm test
 
 
 Use Github issue management to log bug and enhancements requests.
