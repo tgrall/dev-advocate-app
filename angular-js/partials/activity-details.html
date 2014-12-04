@@ -1,0 +1,78 @@
+<div class="container" >
+
+  <div data-ng-controller="ActivityDetailsCtrl">
+
+    <h1><span class="glyphicon glyphicon-leaf"></span> {{activity.title}}</h1>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Informations</div>
+    <div class="panel-body">
+
+        <div class="row">
+          <div class="col-md-1">
+              Date
+          </div>
+          <div class="col-md-4 text-justify">
+              {{activity.eventDate}}
+          </div>
+
+          <div class="col-md-1">
+              Location:
+          </div>
+          <div class="col-md-4 text-justify">
+              {{activity.region}} <span ng-show="activity.country" >({{ activity.country  }})</span>
+          </div>
+        </div>
+
+        <div class="row voffset2">
+          <div class="col-md-1">
+              Attendees:
+          </div>
+          <div class="col-md-4 text-justify">
+              {{activity.attendees}}
+          </div>
+
+          <div class="col-md-1">
+              Type:
+          </div>
+          <div class="col-md-4 text-justify">
+              {{activity.type.label}} ({{activity.type.category}})
+          </div>
+        </div>
+
+        <div class="row voffset2">
+
+          <div class="col-md-1">
+              Speakers:
+          </div>
+          <div class="col-md-4 text-justify">
+            <div ng-repeat="item in activity.speakers">
+              <a href="/speakers/{{item.speaker.userName}}">{{item.speaker.displayName}}</a>
+            </div>
+          </div>
+
+          <div ng-show="activity.talks" class="col-md-1">
+              Talks:
+          </div>
+          <div ng-show="activity.talks" class="col-md-4 text-justify">
+            <div ng-repeat="talk in activity.talks">
+              {{talk.talk_title}} ({{talk.talk_attendees}})
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Report</div>
+    <div class="panel-body"><pre>{{activity.report}}</pre>
+  </div>
+
+
+  </div>
+
+
+</div>

@@ -1,0 +1,145 @@
+<div class="container" >
+
+ <h1><span class="glyphicon glyphicon-leaf"></span> Activity</h1>
+
+
+<form class="form-horizontal" role="form">
+
+  <div class="form-group">
+    <label for="entry.title" class="col-sm-2 control-label">Title:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="entry.title" ng-model="entry.title" placeholder="Title" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="entry.eventDate" class="col-sm-2 control-label">Date:</label>
+    <div class="col-sm-4">
+      <input type="date" class="form-control" id="entry.eventDate" ng-model="entry.eventDate" placeholder="Event Date" required>
+    </div>
+
+    <label for="entry.nb_of_days" class="col-sm-2 control-label">Nb of Days:</label>
+    <div class="col-sm-2">
+      <input type="number" class="form-control" id="entry.nb_of_days" ng-model="entry.nb_of_days" placeholder="Number of Days" required>
+    </div>
+
+  </div>
+
+  <div class="form-group">
+    <label for="entry.attendees" class="col-sm-2 control-label">Attendees:</label>
+    <div class="col-sm-4">
+      <input type="number" class="form-control" id="entry.attendees" ng-model="entry.attendees" placeholder="Number of Attendees" required>
+    </div>
+
+    <label for="entry.speakingSource" class="col-sm-2 control-label">Speaking Source:</label>
+    <div class="col-sm-4">
+      <select ng-model="entry.speakingSource" ng-options=" value  for value in speakingSource" class="form-control" required >
+      </select>
+    </div>
+
+
+  </div>
+
+  <div class="form-group">
+    <label for="entry.type" class="col-sm-2 control-label">Type:</label>
+    <div class="col-sm-4">
+        <select ng-model="entry.type" ng-options=" value._id as (value.label +' ('+ value.type +')')   group by value.category for value in typesActivity " class="form-control" required>
+      </select>
+    </div>
+
+    <label for="entry.partner" class="col-sm-2 control-label">Partner:</label>
+    <div class="col-sm-4" >
+      <input type="text" class="form-control" id="entry.partner" ng-model="entry.partner" placeholder="Partner Name" />
+    </div>
+  </div>
+
+
+  <div class="form-group" ng-show="entry.type._id == 'CONF'")>
+      <label for="entry.url" class="col-sm-2 control-label">Talks:</label>
+      <div class="col-sm-10 well">
+        <div  ng-repeat="talk in talks" class=" row voffset1">
+
+          <div class="col-sm-6">
+            <input class="form-control" ng-model="talk.talk_title" placeholder="Talk Title">
+          </div>
+          <div class="col-sm-2">
+            <input type="number" class="form-control" ng-model="talk.talk_attendees" placeholder="Attendees">
+          </div>
+          <div class="col-sm-2">
+            <a href ng-click="talks.splice($index, 1)" ng-show="talks.length != 0">Remove</a>
+          </div>
+      </div>
+      <div class="col-sm-12">
+        <a href ng-click="addSession($event)" class="control">Add Session</a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group" >
+    <label for="entry.speakers" class="col-sm-2 control-label">Speakers:</label>
+    <div class="col-sm-10">
+      <div  ng-repeat="speaker in speakers" class="row voffset1" >
+        <div class="col-sm-4" >
+          <select required ng-model="speaker.userName" ng-options="value.userName as value.displayName for value in speakerList" class="form-control" >
+          </select>
+        </div>
+
+        <div class="col-sm-6" >
+          <a href ng-click="speakers.splice($index, 1)" ng-show="speakers.length > 1">Remove</a>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <a href ng-click="addSpeaker($event)" class="control">Add Speaker</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="entry.url" class="col-sm-2 control-label">Web Site:</label>
+    <div class="col-sm-10">
+      <input type="url" class="form-control" id="entry.url" ng-model="entry.url" placeholder="URL">
+    </div>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="entry.region" class="col-sm-2 control-label">Region:</label>
+    <div class="col-sm-4">
+      <select ng-model="entry.region" ng-options=" value for value in regions" class="form-control" required>
+      </select>
+    </div>
+
+
+    <label for="entry.country" class="col-sm-2 control-label">Country:</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="entry.country" ng-model="entry.country" placeholder="Country">
+    </div>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="entry.report" class="col-sm-2 control-label">Report:</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" rows="7" id="entry.report" ng-model="entry.report" placeholder="Report" required ></textarea>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-1">
+      <button type="submit" class="btn btn-default" ng-click="save()" >Save</button>
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn ">Cancel</button>
+    </div>
+  </div>
+</form>
+
+
+
+
+
+
+</div>

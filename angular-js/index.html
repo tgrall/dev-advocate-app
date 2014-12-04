@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="mongodbWorkshopApp">
+<head>
+    <title>Activity Management</title>
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap-flatly-3.1.1.min.css">
+    <link rel="stylesheet" href="assets/vendor/jasny-bootstrap/css/jasny-bootstrap-3.1.3.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body ng-controller='AppCtrl' >
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#mongodb-workshop-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Activity Management</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="mongodb-workshop-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#/activity"><span class="glyphicon glyphicon-user"></span> Activities</a></li>
+                <li><a href="#/conferences"><span class="glyphicon glyphicon-bullhorn"></span> Conferences</a></li>
+                <!-- <li><a href="#/cfp"><span class="glyphicon glyphicon-pencil"></span> CFP</a></li>
+                <li><a href="#/admin"><span class="glyphicon glyphicon-pencil"></span> Admin</a></li> -->
+                <li><a href="#/reports"><span class="glyphicon glyphicon-dashboard"></span> Reports</a></li>
+              </ul>
+
+            <ul class="nav navbar-nav pull-right">
+					      <li ng-hide="user.name"><a href="/auth/twitter" >Login with Twitter</a></li>
+                <li ng-show="user.name">
+	                <li class="dropdown" ng-show="user.name">
+	                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									    <img ng-src="{{user.photo}}" style="width:25px;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;" /> {{user.displayName}}
+							      </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="/logout">Logout</a></li>
+                    </ul>
+
+
+	                </li>
+					      </li>
+            </ul>
+
+
+        </div>
+    </div>
+</nav>
+
+
+<div ng-view class="container-fluid">
+
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+    <div class="text-muted small col-md-2 ">v0.0.1 </div>
+    <div class="text-muted small col-md-6 "></div>
+    <div class="text-muted small col-md-4 text-right ">
+      Copyright Tug Grall - 2014
+    </div>
+  </div>
+  </div>
+</footer>
+
+</body>
+
+
+
+<script src="assets/vendor/jquery/js/jquery-1.11.1.min.js"></script>
+<script src="assets/vendor/angular/js/angular-1.2.16.min.js"></script>
+<script src="assets/vendor/angular/js/angular-route-1.2.16.min.js"></script>
+<script src="assets/vendor/angular/js/angular-cookies-1.2.16.js"></script>
+
+<script src="assets/vendor/bootstrap/js/bootstrap-3.1.1.min.js"></script>
+<script src="assets/vendor/ui-bootstrap/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+<script src="assets/vendor/jasny-bootstrap/js/jasny-bootstrap-3.1.3.min.js"></script>
+<script src="assets/vendor/highcharts/js/highcharts-4.0.1.min.js"></script>
+<script src="assets/vendor/highcharts/js/exporting-4.0.1.min.js"></script>
+<script src="assets/vendor/highcharts-ng/js/highcharts-ng-0.0.6.js"></script>
+
+<script src="modules/app-util.js"></script>
+
+<script src="controllers/admin-controller.js"></script>
+<script src="controllers/app-controller.js"></script>
+
+
+
+<script src="controllers/activity-controller.js"></script>
+<script src="controllers/conferences-controller.js"></script>
+<script src="controllers/reports-controller.js"></script>
+<script src="filters/filters.js"></script>
+<script src="app.js"></script>
+
+</html>

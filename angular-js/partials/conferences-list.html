@@ -1,0 +1,29 @@
+<div class="container" >
+  <h1><span class="glyphicon glyphicon-leaf"></span> Events</h1>
+  <div data-ng-controller="ConferencesListCtrl">
+
+    <div class="text-center" style="margin-top: 20px;">
+      <a class="btn btn-warning" href="#/conferences/create">
+        <span class="glyphicon glyphicon-plus-sign"></span> Add Conference ...
+      </a>
+    </div>
+
+    <table class="table table-striped table-condensed table-hover" style="margin-top: 40px;">
+      <thead>
+        <tr>
+          <th>Conference</th>
+          <th>Country</th>
+        </tr>
+      </thead>
+      <tbody data-link="row" class="rowlink">
+        <tr data-ng-repeat="conf in items">
+          <td>
+            <a href="#/conferences/{{conf._id}}">{{conf.name}}</a>
+          </td>
+          <td>{{conf.country}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

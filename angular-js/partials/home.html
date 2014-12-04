@@ -1,0 +1,50 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container">
+    <h1>Activity Management Application</h1>
+    <p>
+      This application is used to capture activity of the Developer Advocates, Solution Architects
+      when they meet our community. This will allow us how much people we talk to, meet...
+    </p>
+    <p>
+      This is also a good place to organize participation to conferences: which ones to sponsor, or talk to.
+      This application is also used to manage talks and organize Call For Papers responses.
+    </p>
+  </div>
+</div>
+
+
+
+<div class="container">
+
+  <div ng-show="entry._id == null" class="alert alert-warning" role="alert">
+    This application is still under development and many features are incomplete or missing. Stay tuned!
+  </div>
+
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-4">
+      <h2><a ng-href="/#/activity/">Activities</a></h2>
+      <p>
+        Use this part of the application to capture your "Event Report". Each time you speal at a conference, meetup, user group
+        just enter the information here. You can then follow your activity in the <a ng-href="/#/reports/" >report</a> section.
+      </p>
+      <p><a class="btn btn-default" ng-href="/#/activity/" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><a ng-href="/#/conferences">Conferences</a></h2>
+      <p>
+        Use this part of the site to enter conference information or rate a conference. This will be use by the team to know
+        which conferences are important to particpate to (sponsor, speaker, ...).
+      </p>
+      <p><a class="btn btn-default" ng-href="/#/conferences" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2><a ng-href="/#/reports">Reports</a></h2>
+      <p>Basic reports about activity (and conferences).
+        Data are aggregated by regions, country and speaker. Graphs and links are coming....<br/><br/></p>
+      <p><a class="btn btn-default" ng-href="/#/reports" role="button">View details &raquo;</a></p>
+    </div>
+  </div>
+
+  <hr>

@@ -1,0 +1,159 @@
+<div class="container" >
+
+  <div data-ng-controller="ConferencesDetailCtrl">
+
+    <h1><span class="glyphicon glyphicon-leaf"></span> {{conference.name}}</h1>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Informations</div>
+      <div class="panel-body">
+
+        <div class="row">
+          <div class="col-md-1">
+            Location:
+          </div>
+          <div class="col-md-4 text-justify">
+            {{conference.region}}
+          </div>
+
+          <div class="col-md-1">
+            Country:
+          </div>
+          <div class="col-md-4 text-justify">
+            {{conference.country}}
+          </div>
+        </div>
+
+        <div class="row voffset2">
+          <div class="col-md-1">
+            Attendees:
+          </div>
+          <div class="col-md-4 text-justify">
+            {{conference.attendees}}
+          </div>
+        </div>
+
+        <div class="row voffset2">
+          <div class="col-md-1">
+            Informations:
+          </div>
+          <div class="col-md-11 text-justify">
+            <pre>{{conference.informations}}</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Comments & Vote</div>
+        <div class="panel-body">
+
+          <div class="text-center" style="margin-top: 20px;">
+            <a class="btn btn-warning" ng-click="open()" >
+              <span class="glyphicon glyphicon-plus-sign"></span> Add Your Vote/Comment ...
+            </a>
+          </div>
+
+
+          <div class="row" data-ng-repeat="comm in conference.comments">
+            <hr/>
+            <div class="col-md-4 small">
+              <div>{{comm.author_name}}</div>
+              <div>
+                <span class="glyphicon glyphicon-star" ng-repeat="i in range(comm.vote) track by $index" ></span>
+              </div>
+              <div ng-show="comm.spoke_there">
+                <span class="glyphicon glyphicon-bullhorn"  ></span> <small><small>Speaker</small></small>
+              </div>
+              <div ng-show="comm.attended">
+                <span class="glyphicon glyphicon-user"  ></span> <small><small>Attende</small></small>
+              </div>
+
+
+            </div>
+            <div class="col-md-8 small">
+              {{comm.comment}}
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    <!-- modal -->
+    <script type="text/ng-template" id="commentModalForm.html">
+      <div class="modal-header">
+        <h3 class="modal-title">Enter your comment</h3>
+      </div>
+      <div class="modal-body">
+      <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+          <label for="editedComment.comment" class="col-sm-3 control-label">Comment:</label>
+          <div class="col-sm-9">
+            <textarea class="form-control" id="editedComment.comment" ng-model="editedComment.comment" placeholder="Tell us what you like or not...." required />
+          </div>
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9 checkbox">
+            <label>
+            <input type="checkbox" ng-model="editedComment.attended" /> I have attended this conference
+            </label>
+          </div>
+
+
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9 checkbox">
+            <label>
+            <input type="checkbox" ng-model="editedComment.spoke_there" /> I have spoken at this conference
+            </label>
+          </div>
+
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9 checkbox">
+            <label>
+              <input type="checkbox" ng-model="editedComment.should_speak" /> We must speak/submit paper
+            </label>
+          </div>
+
+          <div class="col-sm-3"></div>
+          <div class="col-sm-9 checkbox">
+            <label>
+              <input type="checkbox" ng-model="editedComment.should_sponsor" /> We should sponsor this event
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editedComment.vote" class="col-sm-3 control-label">Your vote:</label>
+          <div class="col-sm-6">
+            <select ng-model="editedComment.vote" ng-options=" option.value as (option.value + ' - ' + option.label) for option in vote_options" class="form-control" required>
+            </select>
+          </div>
+        </div>
+
+      </form>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+      </div>
+    </script>
+    <!-- /modal -->
+
+
+
+  </div>
