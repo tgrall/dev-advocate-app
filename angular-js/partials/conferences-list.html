@@ -2,6 +2,26 @@
   <h1><span class="glyphicon glyphicon-leaf"></span> Events</h1>
   <div data-ng-controller="ConferencesListCtrl">
 
+
+    <div class="row text-center">
+      <div class="col-md-4 col-md-offset-4 input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+        <input class="form-control" data-ng-model="searchQuery" data-ng-change="search()" placeholder="search text ...">
+      </div>
+
+      <input type="checkbox" ng-model="advanced" /> Advanced
+
+    </div>
+
+
+    <div class="row text-center voffset2" ng-show="advanced">
+      <label for="country" class="col-md-2  col-md-offset-2  control-label">Country:</label>
+      <div class="col-sm-4">
+        <select ng-model="country" ng-options="value.name as value.name for value in countries" class="form-control" data-ng-change="search()" required>
+        </select>
+      </div>
+    </div>
+
     <div class="text-center" style="margin-top: 20px;">
       <a class="btn btn-warning" href="#/conferences/create">
         <span class="glyphicon glyphicon-plus-sign"></span> Add Conference ...

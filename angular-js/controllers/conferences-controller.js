@@ -12,10 +12,45 @@ conferencesControllers.controller(
   '$cookies',
   function ($scope, $http, $location, $cookies) {
 
+    $scope.countries = [];
+    $scope.items = [];
+    $scope.searchQuery = "";
+
+
     $http.get('/api/1.0/conferences').success(function (items) {
       $scope.items = items;
     });
 
+
+    $http.get('/api/1.0/types/countries?type=conferences').success(function (items) {
+      $scope.countries = items;
+      $scope.countries.unshift( {  "name" : "All Countries"  }  );
+    });
+
+    $scope.search = function () {
+
+      var queryString = "";
+
+      if ($scope.advanced) {
+
+        if ($scope.country != undefined && $scope.country != "All Countries" ) {
+          queryString = "country="+ $scope.country;
+        }
+
+      }
+
+
+     if ($scope.searchQuery.length === 0) {
+        $http.get('/api/1.0/conferences?'+ queryString ).success(function (items) {
+          $scope.items = items;
+        });
+      }
+      else {
+        $http.get('/api/1.0/conferences/search?q='+ $scope.searchQuery +"&"+ queryString ).success(function (items) {
+          $scope.items = items;
+        });
+      }
+    };
 
   }
   ]
@@ -82,10 +117,7 @@ conferencesControllers.controller(
       });
     };
 
-
-
     $scope.saveComment = function() {
-      console.log( $scope.editedComment  );
     }
 
 
@@ -139,17 +171,22 @@ conferencesControllers.controller(
   [
   '$scope',
   '$http',
+  '$routeParams',
   '$location',
-  function ($scope, $http, $location) {
+  function ($scope, $http, $routeParams, $location) {
 
-    $scope.entry = { nb_of_days : 1  };
-    $scope.types = [];
-    $scope.speakerList = []
+    $scope.entry = {};
+    $scope.countries = [];
 
-    $http.get('/api/1.0/types/conferences').success(function (items) {
-      $scope.types = items
+    if ($routeParams.id ) {
+      $http.get('/api/1.0/conferences/'+ $routeParams.id +"?get_comments=false").success(function (item) {
+        $scope.entry = item;
+      });
+    } 
+
+    $http.get('/api/1.0/types/countries').success(function (items) {
+      $scope.countries = items;
     });
-
     $http.get('/api/1.0/speakers/').success(function (items) {
       $scope.speakerList = items
     });
@@ -160,10 +197,15 @@ conferencesControllers.controller(
 
 
     $scope.save = function() {
-      $scope.entry.speakers = $scope.speakers;
-      $http.put('/api/1.0/conferences/', $scope.entry ).success(function (data) {
-        $location.path("/conferences/"+ data._id);
-      });
+      if ( $scope.entry._id ) {
+        $http.put('/api/1.0/conferences/'+ $scope.entry._id, $scope.entry ).success(function (data) {
+          $location.path("/conferences/"+ data._id);
+        });
+      } else {
+        $http.put('/api/1.0/conferences/', $scope.entry ).success(function (data) {
+          $location.path("/conferences/"+ data._id);
+        });
+      }
     }
   }
   ]);

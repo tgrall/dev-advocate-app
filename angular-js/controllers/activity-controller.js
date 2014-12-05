@@ -58,8 +58,6 @@ activityControllers.controller(
 
     $http.get('/api/1.0/types/activity').success(function (items) {
       $scope.typesActivity = items;
-
-
     });
 
 

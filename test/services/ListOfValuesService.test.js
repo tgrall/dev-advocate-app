@@ -19,4 +19,14 @@ describe('ListOfValuesService', function () {
   });
 
 
+  describe('#getAllCountries()', function () {
+    it('check number of countries', function (done) {
+      listOfValuesService.getAllCountries(function(items){
+        assert.equal(items.length, 243);
+        done();
+      });
+    });
+  });
+
+
 });

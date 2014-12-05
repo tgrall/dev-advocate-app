@@ -7,7 +7,14 @@ var ConferencesRoutes = function(conferencesService) {
   var util = new Util();
 
   var _get = function(req, res) {
-    conferencesService.get( function(items){
+    var country = req.query.country;
+    var filter = {};
+
+    if (country) {
+      filter.country = country;
+    }
+
+    conferencesService.get( filter,  function(items){
       res.status(200).send(items);
     });
   }
@@ -15,11 +22,31 @@ var ConferencesRoutes = function(conferencesService) {
 
   var _getById = function(req, res) {
     var id = req.params.id;
-    conferencesService.getById(id, function(document){
+    var get_comments = req.query.get_comments;
+    if (get_comments == undefined || get_comments === "true") {
+      get_comments = true;
+    } else {
+      get_comments = false;
+    }
+    conferencesService.getById(id, get_comments, function(document){
       res.status(200).send(document);
     });
   }
 
+
+  var _search = function(req, res) {
+    var q = req.query.q;
+    var country = req.query.country;
+    var filter = {};
+
+    if (country) {
+      filter.country = country;
+    }
+
+    conferencesService.search(q, filter, function(documents){
+      res.status(200).send(documents);
+    });
+  }
 
   var _create = function(req, res) {
       var body = req.body;
@@ -43,6 +70,12 @@ var ConferencesRoutes = function(conferencesService) {
       });
   }
 
+  var _update = function(req, res) {
+    var update_fields = req.body;
+    conferencesService.update(req.body._id , update_fields , function(result){
+      res.status(201).send(result);
+    } );
+  }
 
   // *********** Comments/Votes Methods **********
   var _addComment = function(req, res) {
@@ -76,7 +109,9 @@ var ConferencesRoutes = function(conferencesService) {
   return {
     get : _get,
     getById: _getById,
+    search: _search,
     create: _create,
+    update: _update,
     addComment: _addComment,
     removeComment: _removeComment
 

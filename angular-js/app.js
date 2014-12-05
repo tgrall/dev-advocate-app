@@ -44,6 +44,10 @@ function ($routeProvider) {
     templateUrl: 'partials/conferences-details.html',
     controller: 'ConferencesDetailCtrl'
   }).
+  when('/conferences/:id/edit', {
+    templateUrl: 'partials/conferences-create.html',
+    controller: 'ConferencesCreateCtrl'
+  }).
   when('/reports', {
     templateUrl: 'partials/reports.html',
     controller: 'reportsSearchCtrl'

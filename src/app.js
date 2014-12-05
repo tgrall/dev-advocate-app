@@ -130,7 +130,9 @@ app.get(api_version + '/speakers/by_names',isAuthenticated, usersRoutes.getSpeak
 
 
 // ***** Activities Routes *****
+app.get(api_version + '/conferences/search', isAuthenticated, conferencesRoutes.search );
 app.get(api_version + '/conferences/:id', isAuthenticated, conferencesRoutes.getById);
+app.put(api_version + '/conferences/:id', isAuthenticated, conferencesRoutes.update );
 app.get(api_version + '/conferences', isAuthenticated, conferencesRoutes.get);
 
 app.put(api_version + '/conferences/comment/:id', isAuthenticated, conferencesRoutes.addComment );
@@ -166,6 +168,9 @@ app.get('/logout', function(req, res) {
 
 // ***** List of Values *****
 app.get(api_version + '/types/activity', listOfValuesRoutes.getAllActivities);
+app.get(api_version + '/types/activities', listOfValuesRoutes.getAllActivities);
+app.get(api_version + '/types/country', listOfValuesRoutes.getCountries);
+app.get(api_version + '/types/countries', listOfValuesRoutes.getCountries);
 
 
 module.exports = app;

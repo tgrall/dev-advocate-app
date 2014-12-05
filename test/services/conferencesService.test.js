@@ -20,7 +20,7 @@ describe('ConferencesService', function () {
     "attendees" : 1500,
     "region" : "EMEA",
     "country" : "France",
-    "informations" : "Delete me if you can !!!!",
+    "informations" : "Delete me if you can !!!! And remember we love TREES....",
     "doc_info" : {
       "created_by" : "tgrall",
       "author_name" : "Tugdual Grall",
@@ -42,14 +42,21 @@ describe('ConferencesService', function () {
 
   describe('#getById()', function () {
     it('get the conference that as been created', function (done) {
-      conferencesService.getById( "test-conference-ignore" ,function(item){
+      conferencesService.getById( "test-conference-ignore", true ,function(item){
         assert.equal( confTestValue._id , item._id  );
         done();
       });
     });
   });
 
-
+  describe('#search()', function () {
+    it('search conference by name/information -fts search', function (done) {
+      conferencesService.search( "tree", {} ,function(items){
+        assert.notStrictEqual(items.length, 0);
+        done();
+      });
+    });
+  });
 
   describe('#addComment()', function () {
     it("add a comment to a conference", function (done) {
@@ -81,7 +88,7 @@ describe('ConferencesService', function () {
       });
 
 
-      conferencesService.getById( "test-conference-ignore" ,function(item){
+      conferencesService.getById( "test-conference-ignore", true ,function(item){
         assert( item.comments.length , 2  );
         assert( item.nb_of_comments , 2  );
         assert( item.total_votes , 6  );
@@ -103,13 +110,25 @@ describe('ConferencesService', function () {
       });
 
 
-      conferencesService.getById( "test-conference-ignore" ,function(item){
+      conferencesService.getById( "test-conference-ignore", true ,function(item){
         assert( item.comments.length , 1  );
         assert( item.nb_of_comments , 2  );
       });
 
       done();
 
+    });
+  });
+
+
+  describe('#update()', function(){
+    it ('update conference', function(done){
+      conferencesService.update(confTestValue._id , {"name" : "to_delete"} , function(){
+        conferencesService.getById( "test-conference-ignore", true ,function(item){
+          assert(  item.name , "to_delete"  );
+          done();
+        });
+      });
     });
   });
 

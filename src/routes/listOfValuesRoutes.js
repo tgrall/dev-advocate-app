@@ -5,10 +5,19 @@ var ListOfValuesRoutes = function(listOfValuesService) {
 
 
   var _getAllActivities = function(req, res) {
-
-    console.log( req.isAuthenticated() );
-
     listOfValuesService.getAllActivities( function(items){
+      res.status(200).send(items);
+    });
+  }
+
+
+
+  var _getCountries = function(req, res) {
+    var collectionName = req.query.type;
+    if (collectionName == undefined ) {
+      collectionName = "countries";
+    }
+    listOfValuesService.getCountries(collectionName, function(items){
       res.status(200).send(items);
     });
   }
@@ -33,7 +42,9 @@ var ListOfValuesRoutes = function(listOfValuesService) {
 
   return {
     getAllActivities : _getAllActivities,
+    getCountries : _getCountries,
     isAuthenticated : _isAuthenticated
+
   }
 
 }
