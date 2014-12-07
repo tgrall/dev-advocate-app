@@ -28,18 +28,12 @@ conferencesControllers.controller(
     });
 
     $scope.search = function () {
-
       var queryString = "";
-
       if ($scope.advanced) {
-
         if ($scope.country != undefined && $scope.country != "All Countries" ) {
           queryString = "country="+ $scope.country;
         }
-
       }
-
-
      if ($scope.searchQuery.length === 0) {
         $http.get('/api/1.0/conferences?'+ queryString ).success(function (items) {
           $scope.items = items;
@@ -52,6 +46,20 @@ conferencesControllers.controller(
       }
     };
 
+    // TODO : See what's the best alternative
+    $scope.inTheFuture = function (theDate) {
+      return  ( new Date(theDate) > new Date())  ;
+    }
+    $scope.range = function(n){
+      if (n == undefined) {
+        return 0;
+      }
+
+      return new Array( Math.round(n));
+    }
+
+
+
   }
   ]
 );
@@ -62,9 +70,14 @@ conferencesControllers.controller(
   '$scope',
   '$http',
   '$routeParams',
+  '$window',
   '$modal',
   '$log',
-  function ($scope, $http, $routeParams, $modal, $log) {
+  function ($scope, $http, $routeParams, $window, $modal, $log) {
+
+    var indexOfEditedComment = -1;
+
+    $scope.avg_vote = null;
     $scope.conference = null;
     $scope.editedComment = {
       attended : false,
@@ -76,8 +89,11 @@ conferencesControllers.controller(
 
     if ($routeParams.id ) {
       $http.get('/api/1.0/conferences/'+ $routeParams.id).success(function (item) {
-        console.log(item);
-        $scope.conference = item
+        $scope.conference = item;
+        if ( item.nb_of_comments != null && item.nb_of_comments != 0  ) {
+          $scope.avg_vote =  item.total_votes / item.nb_of_comments;
+        }
+
       });
     }
 
@@ -97,33 +113,71 @@ conferencesControllers.controller(
       modalInstance.result.then(function (editedComment) {
         $scope.editedComment = editedComment;
 
-        // add new comment to the conference
-        $http.put('/api/1.0/conferences/comment/'+ $scope.conference._id , $scope.editedComment ).success(function (data) {
+        if ( editedComment.id ) {
+          // copy the data / if not only updated fields are sent
+          var commentToUpdate = {
+            comment: editedComment.comment,
+            attended: editedComment.attended,
+            spoke_there: editedComment.spoke_there,
+            should_speak: editedComment.should_speak,
+            should_sponsor: editedComment.should_sponsor,
+            vote: editedComment.vote
+          };
 
-          console.log(data);
-          if (data != undefined) {
-            if ($scope.conference.comments == undefined) {
-              $scope.conference.comments = [];
+          $http.put('/api/1.0/conferences/comment/'+ $scope.conference._id +"/"+  $scope.editedComment.id  , commentToUpdate ).success(function (data) {
+            // for simplicity reason refresh page
+            $window.location.reload();
+          });
+
+        } else {
+
+          // add new comment to the conference
+          $http.put('/api/1.0/conferences/comment/'+ $scope.conference._id , $scope.editedComment ).success(function (data) {
+            if (data != undefined) {
+              if ($scope.conference.comments == undefined) {
+                $scope.conference.comments = [];
+              }
+              $scope.conference.comments.unshift( data  );
+              $scope.conference.nb_of_comments = $scope.nb_of_comments + 1;
+              $scope.conference.total_votes = $scope.total_votes + data.vote;
             }
-            $scope.conference.comments.unshift( data  );
-            $scope.conference.nb_of_comments = $scope.nb_of_comments + 1;
-            $scope.conference.total_votes = $scope.total_votes + data.vote;
-          }
-        });
+          });
 
+
+        }
 
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       });
     };
 
-    $scope.saveComment = function() {
+    $scope.editComment = function(index) {
+      indexOfEditedComment = index;
+      // copy object to controle save
+      var commentToEdit =  Object.create($scope.conference.comments[index]);
+      $scope.editedComment = commentToEdit;
+      $scope.open();
+    }
+
+    $scope.addComment = function() {
+      var commentToEdit =  {};
+      $scope.editedComment = commentToEdit;
+      $scope.open();
     }
 
 
     $scope.range = function(n){
-      return new Array(n);
+      if (n == undefined) {
+        return 0;
+      }
+      return new Array( Math.round(n));
     }
+
+    // TODO : See what's the best alternative
+    $scope.inTheFuture = function (theDate) {
+      return  ( new Date(theDate) > new Date())  ;
+    }
+
 
   }
   ]
@@ -182,7 +236,7 @@ conferencesControllers.controller(
       $http.get('/api/1.0/conferences/'+ $routeParams.id +"?get_comments=false").success(function (item) {
         $scope.entry = item;
       });
-    } 
+    }
 
     $http.get('/api/1.0/types/countries').success(function (items) {
       $scope.countries = items;

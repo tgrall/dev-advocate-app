@@ -93,9 +93,6 @@ var ConferencesService = function() {
   }
 
 
-
-
-
   // ******** Comments/Votes Management *********
   var _addComment  = function(id, comment, callback) {
     mongoDbConnection(function(connection){
@@ -121,18 +118,63 @@ var ConferencesService = function() {
   }
 
 
+  var _updateComment = function( conf_id, comment_id, comment, callback ) {
+    mongoDbConnection(function(connection){
+      var collection = connection.collection(COLL);
+      var comment_obj_id = util.getObjectId(comment_id);
+      comment.id = comment_obj_id;
+
+      // Swtich to findOne?
+      collection.find(
+        { "_id" : conf_id , "comments" : {"$elemMatch" : {"id" : comment_obj_id} } } ,
+        { "comments.$" : true, _id :false }
+      ).toArray(function(err,items){
+        if (err) throw new Error(err);
+
+        var old_comment = items[0].comments[0];
+        if (old_comment.vote == undefined) {
+          old_comment.vote = 0;
+        }
+
+        collection.update(
+          { "_id" : conf_id , "comments.id": comment_obj_id } ,
+          { $set : { "comments.$" : comment  } , "$inc" : { "total_votes" : ( comment.vote - old_comment.vote  )  } } , function (err, result) {
+            if (err) throw new Error(err);
+            callback({"status" : "comment "+ comment_id + " updated"});
+          });
+      });
+
+    });
+  }
+
+
   var _deleteComment = function( conf_id, comment_id, callback ) {
       mongoDbConnection(function(connection){
         var collection = connection.collection(COLL);
         var comment_obj_id = util.getObjectId(comment_id);
 
-        //TODO : remove the vote value too
 
-
-        collection.update( { _id : conf_id }, { $pull : { "comments" : { id : comment_obj_id  }  } , $inc : { nb_of_comments : -1  }  }  , function (err, result) {
+        // Swtich to findOne?
+        collection.find(
+          { "_id" : conf_id , "comments" : {"$elemMatch" : {"id" : comment_obj_id} } } ,
+          { "comments.$" : true, _id :false }
+        ).toArray(function(err,items){
           if (err) throw new Error(err);
-          callback({"status" : "comment removed"});
+
+          var old_comment = items[0].comments[0];
+          if (old_comment.vote == undefined) {
+            old_comment.vote = 0;
+          }
+
+          //TODO : remove the vote value too
+          collection.update( { _id : conf_id }, { $pull : { "comments" : { id : comment_obj_id  }  } , $inc : { nb_of_comments : -1 , total_votes : -old_comment.vote  }  }  , function (err, result) {
+            if (err) throw new Error(err);
+            callback({"status" : "comment removed"});
+          });
+
+
         });
+
       });
     }
 
@@ -147,6 +189,7 @@ var ConferencesService = function() {
     update: _update,
     delete: _delete,
     addComment: _addComment,
+    updateComment: _updateComment,
     deleteComment: _deleteComment
   };
 

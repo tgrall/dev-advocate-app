@@ -83,8 +83,6 @@ var ConferencesRoutes = function(conferencesService) {
     var comment = req.body;
     var user = req.user;
 
-    console.log(user);
-
     if (user == undefined) {
       res.status(401).send();
     } else {
@@ -97,10 +95,29 @@ var ConferencesRoutes = function(conferencesService) {
     }
   }
 
-  var _removeComment = function(req, res) {
+  var _updateComment = function(req, res) {
     var conf_id = req.params.conf_id; // id of the conference
-    var comment_id = req.params.conf_id; // id of the comment to delete
-    conferencesService.removeComment(conf_id, comment_id , function(result){
+    var comment_id = req.params.comment_id; // id of the comment to delete
+    var comment = req.body;
+    var user = req.user;
+
+    if (user == undefined) {
+      res.status(401).send();
+    } else {
+      comment.user = user.userName;
+      comment.author_name = user.displayName;
+      comment.date= new Date();
+      conferencesService.updateComment(conf_id, comment_id, comment , function(result){
+        res.status(201).send(result);
+      });
+    }
+
+  }
+
+  var _deleteComment = function(req, res) {
+    var conf_id = req.params.conf_id; // id of the conference
+    var comment_id = req.params.comment_id; // id of the comment to delete
+    conferencesService.deleteComment(conf_id, comment_id , function(result){
       res.status(201).send(result);
     });
 
@@ -113,7 +130,8 @@ var ConferencesRoutes = function(conferencesService) {
     create: _create,
     update: _update,
     addComment: _addComment,
-    removeComment: _removeComment
+    updateComment: _updateComment,
+    deleteComment: _deleteComment
 
   }
 

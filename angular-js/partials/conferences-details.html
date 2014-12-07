@@ -25,23 +25,22 @@
             {{conference.attendees}}
           </div>
 
-          <div class="col-md-1">
+          <div ng-show="conference.start_date" class="col-md-1">
             Date :
           </div>
-          <div class="col-md-4 text-justify">
-            From {{conference.start_date}} to {{conference.end_date}}
+          <div ng-show="conference.start_date"  class="col-md-4 text-justify">
+             {{conference.start_date}} -- {{conference.end_date}}
           </div>
 
         </div>
 
 
-
-        <div class="row voffset2">
+        <div class="row voffset2" ng-show="inTheFuture(conference.cfp.end_date)">
           <div class="col-md-1">
           </div>
           <div class="col-md-8 text-center">
 
-            <div ng-show="conference.cfp.end_date" class="alert alert-info" role="alert">
+            <div class="alert alert-info" role="alert">
               Call for Paper ends on {{ conference.cfp.end_date  }} <br/> <a ng-href="{{conference.cfp.link}}" target="_blank" >Submit here</a>
             </div>
 
@@ -72,12 +71,12 @@
             <div class="col-md-2 small">
               <div ng-show=" conference.nb_of_comments > 0  " >
                 Number of votes : {{conference.nb_of_comments}}<br>
-                Rating : {{ conference.total_votes / conference.nb_of_comments}}
+                Rating : {{avg_vote | number:2}}
               </div>
             </div>
 
             <div class="text-center" style="margin-top: 10px;">
-              <a class="btn btn-warning" ng-click="open()" >
+              <a class="btn btn-warning" ng-click="addComment()" >
                 <span class="glyphicon glyphicon-plus-sign"></span> Add Your Vote/Comment ...
               </a>
             </div>
@@ -103,13 +102,16 @@
                 <span class="glyphicon glyphicon-bullhorn"  ></span> <small><small>Speaker</small></small>
               </div>
               <div ng-show="comm.attended">
-                <span class="glyphicon glyphicon-user"  ></span> <small><small>Attende</small></small>
+                <span class="glyphicon glyphicon-user"  ></span> <small><small>Attendee</small></small>
               </div>
 
 
             </div>
-            <div class="col-md-8 small">
+            <div class="col-md-7 small">
               {{comm.comment}}
+            </div>
+            <div class="col-md-1 small">
+              <button  ng-show="  comm.user == user.name " class="btn" ng-click="editComment( $index )">Edit</button>
             </div>
           </div>
         </div>

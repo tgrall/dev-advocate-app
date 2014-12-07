@@ -136,6 +136,8 @@ app.put(api_version + '/conferences/:id', isAuthenticated, conferencesRoutes.upd
 app.get(api_version + '/conferences', isAuthenticated, conferencesRoutes.get);
 
 app.put(api_version + '/conferences/comment/:id', isAuthenticated, conferencesRoutes.addComment );
+app.put(api_version + '/conferences/comment/:conf_id/:comment_id', isAuthenticated, conferencesRoutes.updateComment );
+app.delete(api_version + '/conferences/comment/:conf_id/:comment_id', isAuthenticated, conferencesRoutes.deleteComment );
 app.put(api_version + '/conferences', isAuthenticated, conferencesRoutes.create );
 
 
