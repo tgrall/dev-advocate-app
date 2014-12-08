@@ -8,10 +8,6 @@
       <h1><span class="glyphicon glyphicon-leaf"></span> Events</h1>
     </div>
 
-    <div class="col-md-3 text-right" ng-click="alert(2)">
-        <button  class="glyphicon glyphicon-question-sign" ></button>
-    </div>
-
   </div>
   <div data-ng-controller="ConferencesListCtrl">
     <div class="row text-center">
@@ -63,6 +59,7 @@
           <td>
             <div ng-show="conf.nb_of_comments != 0" >
               <span class="glyphicon glyphicon-star" ng-repeat="i in range ( conf.total_votes / (conf.nb_of_comments==0?1:conf.nb_of_comments) ) track by $index" ></span>
+               {{conf.nb_of_comments}} vote(s)
             </div>
           </td>
 
