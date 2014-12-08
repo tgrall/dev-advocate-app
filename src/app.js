@@ -173,6 +173,9 @@ app.get(api_version + '/types/activity', listOfValuesRoutes.getAllActivities);
 app.get(api_version + '/types/activities', listOfValuesRoutes.getAllActivities);
 app.get(api_version + '/types/country', listOfValuesRoutes.getCountries);
 app.get(api_version + '/types/countries', listOfValuesRoutes.getCountries);
+app.get(api_version + '/types/technologies', listOfValuesRoutes.getAllTechnologies);
+app.get(api_version + '/types/topics', listOfValuesRoutes.getAllTopics);
+
 
 
 module.exports = app;

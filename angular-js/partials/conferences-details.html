@@ -54,13 +54,37 @@
 
 
         <div class="row voffset2">
-          <div class="col-md-1">
+          <div class="col-md-2">
             Informations:
           </div>
-          <div class="col-md-11 text-justify">
+          <div class="col-md-10 text-justify">
             <pre>{{conference.informations}}</pre>
           </div>
         </div>
+
+        <div class="row voffset2">
+          <div class="col-md-2">
+            Topics:
+          </div>
+          <div class="col-md-10">
+            <span  ng-repeat="topic in conference.topics" >
+              <span class="btn btn-default btn-xs" style="margin: 3px;" >{{ topic }}</span>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="row voffset2">
+          <div class="col-md-2">
+            Technologies:
+          </div>
+          <div class="col-md-10">
+            <span  ng-repeat="technology in conference.technologies" >
+              <span class="btn btn-default btn-xs" style="margin: 3px;" >{{ technology }}</span>
+            </span>
+          </div>
+        </div>
+
 
       </div>
     </div>
