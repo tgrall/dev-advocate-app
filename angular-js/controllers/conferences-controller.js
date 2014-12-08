@@ -177,24 +177,68 @@ conferencesControllers.controller(
 
     $scope.entry = {};
     $scope.countries = [];
-
-    if ($routeParams.id ) {
-      $http.get('/api/1.0/conferences/'+ $routeParams.id +"?get_comments=false").success(function (item) {
-        $scope.entry = item;
-      });
-    } 
-
-    $http.get('/api/1.0/types/countries').success(function (items) {
-      $scope.countries = items;
-    });
-    $http.get('/api/1.0/speakers/').success(function (items) {
-      $scope.speakerList = items
-    });
-
+    $scope.technologies = [];
+    $scope.topics = [];
+    
     //TODO : move regions as DB lists
     $scope.regions = ["AMERICAS", "APAC", "EMEA", "LATAM"];
 
+    // load lists
+    $http.get('/api/1.0/types/countries').success(function (items) {
+      $scope.countries = items;
+    });
 
+    $http.get('/api/1.0/types/technologies').success(function (items) {
+      $scope.technologies = items
+    });
+
+    $http.get('/api/1.0/types/topics').success(function (items) {
+      $scope.topics = items
+    });
+
+
+    // load conference
+    if ($routeParams.id ) {
+      $http.get('/api/1.0/conferences/'+ $routeParams.id +"?get_comments=false").success(function (item) {
+        $scope.entry = item;
+        $.each( $scope.technologies, function(index, technology){
+          $.each($scope.entry.technologies, function(index, appTech) {
+            if (appTech == technology._id) {
+              technology.choose = true;
+            }
+          });
+        } );
+
+        $.each( $scope.topics, function(index, topic){
+          $.each($scope.entry.topics, function(index, appTech) {
+            if (appTech == topic._id) {
+              topic.choose = true;
+            }
+          });
+        } );
+
+
+      });
+    }
+
+
+    $scope.updateTechnologies = function() {
+      $scope.entry.technologies = [];
+      $.each( $scope.technologies, function(index, technology){
+        if (technology.choose) {
+          $scope.entry.technologies.push(technology._id);
+        }
+      });
+    }
+
+    $scope.updateTopics = function() {
+      $scope.entry.topics = [];
+      $.each( $scope.topics, function(index, topic){
+        if (topic.choose) {
+          $scope.entry.topics.push(topic._id);
+        }
+      });
+    }
 
     $scope.save = function() {
       if ( $scope.entry._id ) {

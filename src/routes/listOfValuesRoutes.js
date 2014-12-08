@@ -10,14 +10,24 @@ var ListOfValuesRoutes = function(listOfValuesService) {
     });
   }
 
-
-
   var _getCountries = function(req, res) {
     var collectionName = req.query.type;
     if (collectionName == undefined ) {
       collectionName = "countries";
     }
     listOfValuesService.getCountries(collectionName, function(items){
+      res.status(200).send(items);
+    });
+  }
+
+  var _getAllTechnologies = function(req, res) {
+    listOfValuesService.getAllTechnologies( function(items){
+      res.status(200).send(items);
+    });
+  }
+
+  var _getAllTopics = function(req, res) {
+    listOfValuesService.getAllTopics( function(items){
       res.status(200).send(items);
     });
   }
@@ -43,8 +53,9 @@ var ListOfValuesRoutes = function(listOfValuesService) {
   return {
     getAllActivities : _getAllActivities,
     getCountries : _getCountries,
+    getAllTechnologies : _getAllTechnologies,
+    getAllTopics : _getAllTopics,
     isAuthenticated : _isAuthenticated
-
   }
 
 }

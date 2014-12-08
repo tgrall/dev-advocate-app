@@ -27,6 +27,36 @@ db.conferences.ensureIndex(
 );
 
 
+db.technologies.insert([
+   {"_id":".NET","label":".NET", "category" : "Languages"}
+  ,{"_id":".C","label":".C", "category" : "Languages"}
+  ,{"_id":"Clojure","label":"Clojure", "category" : "Languages"}
+  ,{"_id":"Go","label":"Go", "category" : "Languages"}
+  ,{"_id":"Java","label":"Java", "category" : "Languages"}
+  ,{"_id":"Javascript","label":"Javascript", "category" : "Languages"}
+  ,{"_id":"PHP","label":"PHP", "category" : "Languages"}
+  ,{"_id":"Python","label":"Python", "category" : "Languages"}
+  ,{"_id":"Rails","label":"Rails", "category" : "Languages"}
+  ,{"_id":"Ruby","label":"Ruby", "category" : "Languages"}
+  ,{"_id":"Scala","label":"Scala", "category" : "Languages"}
+  ,{"_id":"Docker","label":"Docker", "category" : "Ops"}
+  ]);
+
+
+db.topics.insert([
+  {"_id":"Cloud","label":"Cloud", "category" : "DevOps"}
+  ,{"_id":"DevOps","label":"DevOps", "category" : "DevOps"}
+  ,{"_id":"Mobile","label":"Mobile", "category" : "Architecture"}
+  ,{"_id":"Web","label":"Web", "category" : "Architecture"}
+  ,{"_id":"NoSQL","label":"NoSQL", "category" : "Architecture"}
+  ,{"_id":"Big Data","label":"Big Data", "category" : "Architecture"}
+  ,{"_id":"Security","label":"Security", "category" : "Architecture"}
+  ,{"_id":"Startup","label":"Startup", "category" : "Business"}
+  ,{"_id":"Methodology","label":"Methodology", "category" : "Business"}
+  ,{"_id":"Future","label":"Future", "category" : "Business"}
+  ,{"_id":"Games","label":"Games", "category" : "Business"}
+  ]);
+
 db.countries.insert([
   {"name": 'Afghanistan', "_id": 'AF'},
   {"name": 'Ã…land Islands', "_id": 'AX'},
