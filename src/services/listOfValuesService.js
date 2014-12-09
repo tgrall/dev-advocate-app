@@ -9,6 +9,7 @@ var ListOfValuesService = function() {
     var TECHNOLOGIES  = "technologies";
     var TOPICS  = "topics";
     var LINK_TYPES  = "link_types";
+    var PAPER_STATUS = "paper_status";
     var mongoDbConnection = require("./mongoConnection.js");
 
 
@@ -39,7 +40,6 @@ var ListOfValuesService = function() {
           var collection = connection.collection(collectionName);
 
           collection.distinct( "country", function(err, values) {
-            console.log( values );
             var items = [];
             for(var i in values) {
               items.push( { "name" : values[i] });
@@ -70,6 +70,16 @@ var ListOfValuesService = function() {
       });
     }
 
+    var _getAllPaperStatus = function(callback) {
+      mongoDbConnection(function(connection){
+        var collection = connection.collection(PAPER_STATUS);
+        collection.find({}).toArray(function(err,items){
+          if (err) throw new Error(err);
+          callback(items);
+        });
+      });
+    }
+
     var _getAllTopics = function(callback) {
       mongoDbConnection(function(connection){
         var collection = connection.collection(TOPICS);
@@ -87,6 +97,7 @@ var ListOfValuesService = function() {
         getCountries: _getCountries,
         getAllTechnologies: _getAllTechnologies,
         getAllLinkTypes: _getAllLinkTypes,
+        getAllPaperStatus: _getAllPaperStatus,
         getAllTopics: _getAllTopics
       };
 

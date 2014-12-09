@@ -188,6 +188,8 @@ app.get(api_version + '/types/countries', listOfValuesRoutes.getCountries);
 app.get(api_version + '/types/technologies', listOfValuesRoutes.getAllTechnologies);
 app.get(api_version + '/types/topics', listOfValuesRoutes.getAllTopics);
 app.get(api_version + '/types/links', listOfValuesRoutes.getAllLinkTypes);
+app.get(api_version + '/types/paper_status', listOfValuesRoutes.getAllPaperStatus);
+
 
 
 

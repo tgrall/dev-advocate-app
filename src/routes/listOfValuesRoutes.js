@@ -38,6 +38,11 @@ var ListOfValuesRoutes = function(listOfValuesService) {
     });
   }
 
+  var _getAllPaperStatus = function(req, res) {
+    listOfValuesService.getAllPaperStatus( function(items){
+      res.status(200).send(items);
+    });
+  }
 
   var _isAuthenticated = function(req, res) {
     if ( req.isAuthenticated() ) {
@@ -62,6 +67,7 @@ var ListOfValuesRoutes = function(listOfValuesService) {
     getAllTechnologies : _getAllTechnologies,
     getAllTopics : _getAllTopics,
     getAllLinkTypes : _getAllLinkTypes,
+    getAllPaperStatus: _getAllPaperStatus,
     isAuthenticated : _isAuthenticated
   }
 

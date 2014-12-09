@@ -36,12 +36,20 @@ db.papers.ensureIndex(
   }
 );
 
+db.paper_status.insert([
+  {"_id":"Draft","label":"Draft"}
+  ,{"_id":"Done","label":"Done (ready to be used)"}
+  ,{"_id":"Submitted","label":"Submitted to at lease one conference"}
+  ,{"_id":"Accepted","label":"Accepted by at least one conference"}
+  ]
+  , {"ordered" : false});
+
 
 db.link_types.insert([
   {"_id":"Slideshare","label":"Slideshare"}
  ,{"_id":"Speakerdeck","label":"Speakerdeck"}
  ,{"_id":"Video","label":"Video"}
- ,{"_id":"Code","label":"Code"}
+ ,{"_id":"Sources","label":"Sources"}
  ,{"_id":"File","label":"File"}
  ,{"_id":"Others","label":"Others"}
   ]

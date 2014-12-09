@@ -81,9 +81,14 @@ papersControllers.controller(
     $scope.authors = [{}];
     $scope.links = [];
     $scope.linkTypes = [];
+    $scope.paperStatus = [];
 
     $http.get('/api/1.0/types/links').success(function (items) {
       $scope.linkTypes = items
+    });
+
+    $http.get('/api/1.0/types/paper_status').success(function (items) {
+      $scope.paperStatus = items
     });
 
     $http.get('/api/1.0/speakers/').success(function (items) {
