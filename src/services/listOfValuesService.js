@@ -8,6 +8,7 @@ var ListOfValuesService = function() {
     var CONFERENCES  = "conferences";
     var TECHNOLOGIES  = "technologies";
     var TOPICS  = "topics";
+    var LINK_TYPES  = "link_types";
     var mongoDbConnection = require("./mongoConnection.js");
 
 
@@ -59,6 +60,15 @@ var ListOfValuesService = function() {
       });
     }
 
+    var _getAllLinkTypes = function(callback) {
+      mongoDbConnection(function(connection){
+        var collection = connection.collection(LINK_TYPES);
+        collection.find({}).toArray(function(err,items){
+          if (err) throw new Error(err);
+          callback(items);
+        });
+      });
+    }
 
     var _getAllTopics = function(callback) {
       mongoDbConnection(function(connection){
@@ -76,6 +86,7 @@ var ListOfValuesService = function() {
         getAllCountries: _getAllCountries,
         getCountries: _getCountries,
         getAllTechnologies: _getAllTechnologies,
+        getAllLinkTypes: _getAllLinkTypes,
         getAllTopics: _getAllTopics
       };
 

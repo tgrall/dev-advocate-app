@@ -32,6 +32,12 @@ var ListOfValuesRoutes = function(listOfValuesService) {
     });
   }
 
+  var _getAllLinkTypes = function(req, res) {
+    listOfValuesService.getAllLinkTypes( function(items){
+      res.status(200).send(items);
+    });
+  }
+
 
   var _isAuthenticated = function(req, res) {
     if ( req.isAuthenticated() ) {
@@ -55,6 +61,7 @@ var ListOfValuesRoutes = function(listOfValuesService) {
     getCountries : _getCountries,
     getAllTechnologies : _getAllTechnologies,
     getAllTopics : _getAllTopics,
+    getAllLinkTypes : _getAllLinkTypes,
     isAuthenticated : _isAuthenticated
   }
 

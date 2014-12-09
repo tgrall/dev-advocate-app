@@ -1,9 +1,8 @@
-<!-- <div class="container" ng-show="!user.authenticated" >
+<div class="container" ng-show="!user.authenticated" >
   <div class="alert alert-warning text-center" role="alert"><h3>You need to login</h3></div>
-</div> -->
+</div>
 
-<div class="container" >
-
+<div class="container" ng-show="user.authenticated" >
   <h1><span class="glyphicon glyphicon-file"></span> Paper</h1>
 
   <form class="form-horizontal" role="form">
@@ -72,7 +71,7 @@
         <div  ng-repeat="link in links" class="row voffset2">
 
           <div class="col-sm-2">
-            <select required ng-model="link.type" ng-options="value for value in linkTypes" class="form-control" >
+            <select required ng-model="link.type" ng-options="value._id as value._id for value in linkTypes" class="form-control" >
             </select>
 
           </div>

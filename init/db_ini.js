@@ -37,6 +37,17 @@ db.papers.ensureIndex(
 );
 
 
+db.link_types.insert([
+  {"_id":"Slideshare","label":"Slideshare"}
+ ,{"_id":"Speakerdeck","label":"Speakerdeck"}
+ ,{"_id":"Video","label":"Video"}
+ ,{"_id":"Code","label":"Code"}
+ ,{"_id":"File","label":"File"}
+ ,{"_id":"Others","label":"Others"}
+  ]
+  , {"ordered" : false});
+
+
 db.technologies.insert([
    {"_id":".NET","label":".NET", "category" : "Languages"}
   ,{"_id":".C","label":".C", "category" : "Languages"}

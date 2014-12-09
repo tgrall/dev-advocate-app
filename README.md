@@ -1,6 +1,6 @@
 # Activity Management Application
 
-This application is uses to capture Developer Advocate related activity.
+This application is used to capture Developer Advocate related activity.
 
 
 ### Prerequisites
@@ -10,7 +10,7 @@ This application is uses to capture Developer Advocate related activity.
 
 ### Installation
 
-Once you have clone the repository:
+Once you have cloned the repository:
 
     cd dev-advocate-app
 
@@ -29,7 +29,7 @@ Default values:
   * MONGODB_URL : mongodb://localhost:27017/dev-adv-activities
   * MODE=dev
   * OAUTH_REDIRECT=http://localhost:8080/
-  
+
 
 When mode is production, the security is enabled, this means you must log in to see data.
 

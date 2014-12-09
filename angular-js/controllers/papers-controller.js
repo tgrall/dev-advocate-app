@@ -80,13 +80,15 @@ papersControllers.controller(
     $scope.authorList = null;
     $scope.authors = [{}];
     $scope.links = [];
+    $scope.linkTypes = [];
 
-    $scope.linkTypes = ["File", "Slideshare", "Video", "Source", "Other"];
+    $http.get('/api/1.0/types/links').success(function (items) {
+      $scope.linkTypes = items
+    });
 
     $http.get('/api/1.0/speakers/').success(function (items) {
       $scope.authorList = items
     });
-
 
     $http.get('/api/1.0/types/technologies').success(function (items) {
       $scope.technologies = items
