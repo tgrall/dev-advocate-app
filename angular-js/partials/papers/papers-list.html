@@ -32,6 +32,7 @@
           <th class="col-md-3">Authors</th>
           <th class="col-md-3">Topics</th>
           <th class="col-md-2">Technologies</th>
+          <th class="col-md-2">Status</th>
         </tr>
       </thead>
       <tbody data-link="row" class="rowlink">
@@ -54,6 +55,9 @@
             <span  ng-repeat="technology in paper.technologies" >
               <span class="btn btn-default btn-xs" style="margin: 3px;" >{{ technology }}</span>
             </span>
+          </td>
+          <td>
+            {{paper.status}}
           </td>
         </tr>
       </tbody>

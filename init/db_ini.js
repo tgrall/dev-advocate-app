@@ -39,7 +39,7 @@ db.papers.ensureIndex(
 db.paper_status.insert([
   {"_id":"Draft","label":"Draft"}
   ,{"_id":"Done","label":"Done (ready to be used)"}
-  ,{"_id":"Submitted","label":"Submitted to at lease one conference"}
+  ,{"_id":"Submitted","label":"Submitted to at least to one conference"}
   ,{"_id":"Accepted","label":"Accepted by at least one conference"}
   ]
   , {"ordered" : false});
@@ -69,7 +69,12 @@ db.technologies.insert([
   ,{"_id":"Ruby","label":"Ruby", "category" : "Languages"}
   ,{"_id":"Scala","label":"Scala", "category" : "Languages"}
   ,{"_id":"Docker","label":"Docker", "category" : "Ops"}
-  ,{"_id":"Hadoop","label":"Hadoop", "category" : "Architecture"}
+  ,{"_id":"Hadoop","label":"Hadoop", "category" : "Storage"}
+  ,{"_id":"MongoDB","label":"MongoDB", "category" : "Storage"}
+  ,{"_id":"RDBMS","label":"RDBMS", "category" : "Storage"}
+  ,{"_id":"MySQL","label":"MySQL", "category" : "Storage"}
+  ,{"_id":"Oracle","label":"Oracle", "category" : "Storage"}
+  ,{"_id":"Cassandra","label":"Cassandra", "category" : "Storage"}
   ]
   , {"ordered" : false});
 
