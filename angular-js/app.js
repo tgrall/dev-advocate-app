@@ -3,6 +3,7 @@ var mongodbWorkshopApp = angular.module('mongodbWorkshopApp', [
 'ngRoute',
 'activityControllers',
 'conferencesControllers',
+'papersControllers',
 'adminControllers',
 'appControllers',
 'reportsControllers',
@@ -47,6 +48,22 @@ function ($routeProvider) {
   when('/conferences/:id/edit', {
     templateUrl: 'partials/conferences-create.html',
     controller: 'ConferencesCreateCtrl'
+  }).
+  when('/papers', {
+    templateUrl: 'partials/papers/papers-list.html',
+    controller: 'PapersListCtrl'
+  }).
+  when('/papers/create', {
+    templateUrl: 'partials/papers/papers-create.html',
+    controller: 'PapersCreateCtrl'
+  }).
+  when('/papers/:id', {
+    templateUrl: 'partials/papers/papers-details.html',
+    controller: 'PapersDetailCtrl'
+  }).
+  when('/papers/:id/edit', {
+    templateUrl: 'partials/papers/papers-create.html',
+    controller: 'PapersCreateCtrl'
   }).
   when('/reports', {
     templateUrl: 'partials/reports.html',

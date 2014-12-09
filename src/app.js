@@ -21,6 +21,8 @@ var UsersRoutes = require('./routes/usersRoutes');
 var ConferencesService = require('./services/conferencesService');
 var ConferencesRoutes = require('./routes/conferencesRoutes');
 
+var PapersService = require('./services/papersService');
+var PapersRoutes = require('./routes/papersRoutes');
 
 var ListOfValuesRoutes = require('./routes/listOfValuesRoutes');
 var ListOfValuesService = require('./services/listOfValuesService');
@@ -38,6 +40,8 @@ var activityRoutes = new ActivityRoutes(activityService);
 var conferencesService = new ConferencesService();
 var conferencesRoutes = new ConferencesRoutes(conferencesService);
 
+var papersService = new PapersService();
+var papersRoutes = new PapersRoutes(papersService);
 
 var listOfValuesService = new ListOfValuesService();
 var listOfValuesRoutes = new ListOfValuesRoutes(listOfValuesService);
@@ -129,7 +133,7 @@ app.get(api_version + '/speakers/by_names',isAuthenticated, usersRoutes.getSpeak
 
 
 
-// ***** Activities Routes *****
+// ***** Conferences Routes *****
 app.get(api_version + '/conferences/search', isAuthenticated, conferencesRoutes.search );
 app.get(api_version + '/conferences/:id', isAuthenticated, conferencesRoutes.getById);
 app.put(api_version + '/conferences/:id', isAuthenticated, conferencesRoutes.update );
@@ -139,6 +143,14 @@ app.put(api_version + '/conferences/comment/:id', isAuthenticated, conferencesRo
 app.put(api_version + '/conferences/comment/:conf_id/:comment_id', isAuthenticated, conferencesRoutes.updateComment );
 app.delete(api_version + '/conferences/comment/:conf_id/:comment_id', isAuthenticated, conferencesRoutes.deleteComment );
 app.put(api_version + '/conferences', isAuthenticated, conferencesRoutes.create );
+
+
+// ***** Paper Routes *****
+app.get(api_version + '/papers/search', isAuthenticated, papersRoutes.search );
+app.get(api_version + '/papers/:id', isAuthenticated, papersRoutes.getById);
+app.put(api_version + '/papers/:id', isAuthenticated, papersRoutes.update );
+app.get(api_version + '/papers', isAuthenticated, papersRoutes.get);
+app.put(api_version + '/papers', isAuthenticated, papersRoutes.create );
 
 
 // ***** Activities Routes *****

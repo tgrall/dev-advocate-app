@@ -1,0 +1,108 @@
+<!-- <div class="container" ng-show="!user.authenticated" >
+  <div class="alert alert-warning text-center" role="alert"><h3>You need to login</h3></div>
+</div> -->
+
+<div class="container" >
+
+  <h1><span class="glyphicon glyphicon-file"></span> Paper</h1>
+
+  <form class="form-horizontal" role="form">
+
+    <div class="form-group">
+      <label for="entry.title" class="col-sm-2 control-label">Title:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="entry.title" ng-model="entry.title" placeholder="Title of the paper" required>
+      </div>
+    </div>
+
+
+
+    <div class="form-group">
+      <label for="entry.description" class="col-sm-2 control-label">Informations:</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" rows="7" id="entry.description" ng-model="entry.description" placeholder="Abstract of the paper" required ></textarea>
+      </div>
+    </div>
+
+    <div class="form-group" >
+      <label for="entry.authors" class="col-sm-2 control-label">Authors:</label>
+      <div class="col-sm-10">
+        <div  ng-repeat="author in authors" class="row voffset1" >
+          <div class="col-sm-4" >
+            <select required ng-model="author.userName" ng-options="value.userName as value.displayName for value in authorList" class="form-control" >
+            </select>
+          </div>
+
+          <div class="col-sm-6" >
+            <a href ng-click="authors.splice($index, 1)" ng-show="authors.length > 1">Remove</a>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <a href ng-click="addAuthor($event)" class="control">Add author</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Topics:</label>
+      <div class="col-sm-10 well">
+        <div class="col-sm-2" ng-repeat="topic in topics">
+          <label class="checkbox row" >
+            <input type="checkbox" ng-model="topic.choose" ng-change="updateTopics()"> {{topic._id }}</input>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Technologies:</label>
+      <div class="col-sm-10 well">
+        <div class="col-sm-2" ng-repeat="technology in technologies">
+          <label class="checkbox row" >
+          <input type="checkbox" ng-model="technology.choose" ng-change="updateTechnologies()"> {{technology._id }}</input>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" >
+      <label for="entry.links" class="col-sm-2 control-label">Links:</label>
+      <div class="col-sm-10 ">
+        <div  ng-repeat="link in links" class="row voffset2">
+
+          <div class="col-sm-2">
+            <select required ng-model="link.type" ng-options="value for value in linkTypes" class="form-control" >
+            </select>
+
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" ng-model="link.url" placeholder="Url" type="url">
+          </div>
+          <div class="col-sm-2">
+            <a href ng-click="links.splice($index, 1)" ng-show="links.length != 0">Remove</a>
+          </div>
+        </div>
+        <div class="col-sm-12 row voffset2">
+          <a href ng-click="addLink($event)" class="control">Add link</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group"  voffset3>
+      <div class="col-sm-offset-2 col-sm-1">
+        <button type="submit" class="btn btn-default" ng-click="save()" >Save</button>
+      </div>
+      <div class="col-sm-1">
+        <button type="button" class="btn" ng-click="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+
+</div>

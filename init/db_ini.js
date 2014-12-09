@@ -15,13 +15,23 @@ db.activity_types.save([
   { "_id" : "SALES", "label" : "Customer Sales Meeting", "category" : "Sales" , "type" : "Sales"  },
   { "_id" : "WSHP", "label" : "Workshop", "category" : "Enable" , "type" : "Community"  },
   { "_id" : "PTWSHP", "label" : "Partner Workshop", "category" : "Enable" , "type" : "Partner"  }
-  ]);
+  ]
+  , {"ordered" : false});
+
 
 
 db.conferences.ensureIndex(
   { "name" : "text" , "informations" : "text" },
   {
-    "weights" : { "name" : 10 ,  "limitations" : 5 } ,
+    "weights" : { "name" : 10 ,  "informations" : 5 } ,
+    "name" : "TextIndex"
+  }
+);
+
+db.papers.ensureIndex(
+  { "title" : "text" , "description" : "text" },
+  {
+    "weights" : { "title" : 10 ,  "description" : 5 } ,
     "name" : "TextIndex"
   }
 );
@@ -40,7 +50,9 @@ db.technologies.insert([
   ,{"_id":"Ruby","label":"Ruby", "category" : "Languages"}
   ,{"_id":"Scala","label":"Scala", "category" : "Languages"}
   ,{"_id":"Docker","label":"Docker", "category" : "Ops"}
-  ]);
+  ,{"_id":"Hadoop","label":"Hadoop", "category" : "Architecture"}
+  ]
+  , {"ordered" : false});
 
 
 db.topics.insert([
@@ -55,11 +67,13 @@ db.topics.insert([
   ,{"_id":"Methodology","label":"Methodology", "category" : "Business"}
   ,{"_id":"Future","label":"Future", "category" : "Business"}
   ,{"_id":"Games","label":"Games", "category" : "Business"}
-  ]);
+  ]
+  , {"ordered" : false});
+
 
 db.countries.insert([
   {"name": 'Afghanistan', "_id": 'AF'},
-  {"name": 'Ã…land Islands', "_id": 'AX'},
+  {"name": 'Åland Islands', "_id": 'AX'},
   {"name": 'Albania', "_id": 'AL'},
   {"name": 'Algeria', "_id": 'DZ'},
   {"name": 'American Samoa', "_id": 'AS'},
@@ -301,4 +315,5 @@ db.countries.insert([
   {"name": 'Yemen', "_id": 'YE'},
   {"name": 'Zambia', "_id": 'ZM'},
   {"name": 'Zimbabwe', "_id": 'ZW'}
-  ]);
+  ]
+  , {"ordered" : false});
