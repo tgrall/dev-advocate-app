@@ -98,7 +98,7 @@ function isAuthenticated(req, res, next) {
       res.status(403).send("Not authorized");
     }
   } else {
-    console.log("-- not production mode -- NOT SECURITY!!!!!");
+    console.log("-- not production mode -- NO SECURITY!!!!!");
   }
   return next();
 

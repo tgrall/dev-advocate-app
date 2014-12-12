@@ -13,22 +13,80 @@ papersControllers.controller(
   function ($scope, $http, $location, $cookies) {
 
     $scope.items = [];
+    $scope.technologies = [];
+    $scope.technology = "All";
+    $scope.topics = [];
+    $scope.topic = "All";
     $scope.searchQuery = "";
+
+
+
+    // TODO ; see how to do a better job with this
+    var buildQueryParameter = function(technology , topic) {
+      var returnValue = "";
+      if (technology != "All") {
+        returnValue = "technology="+ technology;
+      }
+      if (topic != "All") {
+        if (returnValue == "") {
+          returnValue = returnValue + "&"
+        }
+        returnValue = "topic="+ topic;
+      }
+      return returnValue;
+    }
+
+    $http.get('/api/1.0/types/technologies').success(function (items) {
+      $scope.technologies = items
+      $scope.technologies.unshift( {  "_id" : "All"  }  );
+      $scope.technology = "All";
+    });
+
+    $http.get('/api/1.0/types/topics').success(function (items) {
+      $scope.topics = items
+      $scope.topics.unshift( {  "_id" : "All"  }  );
+    });
 
 
     $http.get('/api/1.0/papers').success(function (items) {
       $scope.items = items;
     });
 
+    $scope.selectTopic = function(topic){
+      $scope.topic = topic;
+      $scope.advanced = true;
+      $scope.search();
+    }
+    $scope.selectTechnology = function(technology){
+      $scope.technology = technology;
+      $scope.advanced = true;
+      $scope.search();
+    }
+
 
     $scope.search = function () {
+      var query = "";
+      if ($scope.topic != undefined && $scope.topic != "All") {
+        query = "topic="+ $scope.topic;
+      }
+      if ($scope.technology != undefined && $scope.technology != "All") {
+        if (query != "") {
+          query = query + "&";
+        }
+        query = query + "technology="+ $scope.technology;
+      }
+      if (query == undefined) {
+        query = "";
+      }
+
+
       if ($scope.searchQuery.length === 0) {
-        $http.get('/api/1.0/papers').success(function (items) {
+        $http.get('/api/1.0/papers?'+ query).success(function (items) {
           $scope.items = items;
         });
       }
       else {
-        $http.get('/api/1.0/papers/search?q='+ $scope.searchQuery ).success(function (items) {
+        $http.get('/api/1.0/papers/search?q='+ $scope.searchQuery +"&"+ query ).success(function (items) {
           $scope.items = items;
         });
       }

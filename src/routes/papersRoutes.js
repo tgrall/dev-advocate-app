@@ -7,11 +7,12 @@ var PapersRoutes = function(papersService) {
   var util = new Util();
 
   var _get = function(req, res) {
-    var country = req.query.country;
     var filter = {};
-
-    if (country) {
-      filter.country = country;
+    if (req.query.technology) {
+      filter.technologies = req.query.technology;
+    }
+    if (req.query.topic) {
+      filter.topics = req.query.topic;
     }
 
     papersService.get( filter,  function(items){
@@ -30,11 +31,12 @@ var PapersRoutes = function(papersService) {
 
   var _search = function(req, res) {
     var q = req.query.q;
-    var country = req.query.country;
     var filter = {};
-
-    if (country) {
-      filter.country = country;
+    if (req.query.technology) {
+      filter.technologies = req.query.technology;
+    }
+    if (req.query.topic) {
+      filter.topics = req.query.topic;
     }
 
     papersService.search(q, filter, function(documents){

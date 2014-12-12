@@ -15,7 +15,17 @@ describe('PapersService', function () {
 
   var paperTest = {
     title : "MongoDB Paper To Test",
-    description : "This is a test paper that should be delete"
+    description : "This is a test paper that should be delete",
+    technologies : ["Hadoop", "Dummy"],
+    topics : ["NoSQL", "MongoDB"]
+  }
+
+  var paperTest2 = {
+    _id : "foo-bar",
+    title : "foo bar",
+    description : "This is a test paper that should be delete",
+    technologies : ["Hadoop", "MongoDB"],
+    topics : ["foo", "bar", "Dummy"]
   }
 
   var idTest = util.convertToSlug( paperTest.title );
@@ -24,11 +34,38 @@ describe('PapersService', function () {
   describe('#create()', function(){
     it('create a new paper', function(done){
       papersService.create(paperTest, function(){
-        done();
+        papersService.create(paperTest2, function(){
+          done();
+        });
       });
     });
   });
 
+
+  describe('#get()', function () {
+    it('get the list of paper', function (done) {
+      papersService.get( {} , function(items){
+        assert.ok( (items.length >= 2) , "We should at least have 2 items in the list!" );
+        done();
+      });
+    });
+
+    it ('get the list of paper with technologie of topics', function(done) {
+      papersService.get( {'topics' : 'foo'} , function(items){
+        assert.equal( 1,1, "Only one document should have 'foo' as topics or technologies" );
+        done();
+      });
+    });
+
+
+    it ('get the list of paper with technologie of topics', function(done) {
+      papersService.get( { "$or":[ {"topics":"Dummy"} , {"technologies":"Dummy"}]  } , function(items){
+        assert.equal( items.length,2, "We should find 2 documents with dummy in the technologies or topics" );
+        done();
+      });
+    });
+
+  });
 
 
   describe('#getById()', function () {
@@ -66,7 +103,9 @@ describe('PapersService', function () {
   describe('#delete()', function(){
     it('should delete paper', function( done){
       papersService.delete(idTest, function(){
-        done();
+        papersService.delete( paperTest2._id , function(){
+          done();
+        } )
       });
     });
   });

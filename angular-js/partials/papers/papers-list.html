@@ -14,8 +14,25 @@
         <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
         <input class="form-control" data-ng-model="searchQuery" data-ng-change="search()" placeholder="search text ...">
       </div>
+
+      <input type="checkbox" ng-model="advanced" /> Advanced
     </div>
 
+
+    <div class="row text-center voffset2" ng-show="advanced">
+      <label for="topic" class="col-md-2   control-label">Topic:</label>
+      <div class="col-sm-4">
+        <select ng-model="topic" ng-options="value._id as value._id for value in topics" class="form-control" data-ng-change="search()" required>
+        </select>
+      </div>
+
+      <label for="technology" class="col-md-2  control-label">Technologies:</label>
+      <div class="col-sm-4">
+        <select ng-model="technology" ng-options="value._id as value._id for value in technologies" class="form-control" data-ng-change="search()" required>
+        </select>
+      </div>
+
+    </div>
 
     <div class="text-center" style="margin-top: 20px;">
       <a class="btn btn-warning" href="#/papers/create">
@@ -35,7 +52,7 @@
           <th class="col-md-2">Status</th>
         </tr>
       </thead>
-      <tbody data-link="row" class="rowlink">
+      <tbody class="rowlink">
         <tr data-ng-repeat="paper in items">
           <td>
             <a ng-href="#/papers/{{paper._id}}">{{paper.title}}</a>
@@ -48,12 +65,12 @@
           </td>
           <td>
             <span  ng-repeat="topic in paper.topics" >
-              <span class="btn btn-default btn-xs" style="margin: 3px;" >{{ topic }}</span>
+              <button ng-click="selectTopic(topic)" class="btn btn-default btn-xs" style="margin: 3px;" >{{ topic }}</button>
             </span>
           </td>
           <td>
             <span  ng-repeat="technology in paper.technologies" >
-              <span class="btn btn-default btn-xs" style="margin: 3px;" >{{ technology }}</span>
+              <button ng-click="selectTechnology(technology)" class="btn btn-default btn-xs" style="margin: 3px;" >{{ technology }}</button>
             </span>
           </td>
           <td>
