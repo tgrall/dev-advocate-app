@@ -97,15 +97,9 @@ var PapersService = function() {
       }
 
       var updateCommand = {"$set" : paper};
-
-
       if (unsetCommand ) {
         updateCommand["$unset"] = unsetCommand;
       }
-
-
-
-
 
       collection.update( { "_id" : id} , updateCommand , function (err, result) {
         if (err) throw new Error(err);
@@ -113,6 +107,29 @@ var PapersService = function() {
       });
     });
   }
+
+  var _addSubmission  = function(id, submission, callback) {
+    mongoDbConnection(function(connection){
+      var collection = connection.collection(COLL);
+
+      // add an id to the comment to ease the delete/pop
+      // TODO : move that to the root
+      if (submission.id == undefined) {
+        submission.id = util.getNewObjectId();
+      }
+
+      collection.update(  { _id : id },
+        { $push : {
+          "submissions" :  { $each : [submission] , $position : 0 }
+        }
+      },
+      function (err, result) {
+        if (err) throw new Error(err);
+        callback(submission);
+      });
+    });
+  }
+
 
   var _delete = function(id, callback) {
     mongoDbConnection(function(connection){
@@ -133,6 +150,7 @@ var PapersService = function() {
       search: _search,
       create: _create,
       update: _update,
+      addSubmission: _addSubmission,
       delete: _delete
     };
 

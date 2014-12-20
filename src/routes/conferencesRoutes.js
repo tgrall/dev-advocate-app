@@ -8,13 +8,20 @@ var ConferencesRoutes = function(conferencesService) {
 
   var _get = function(req, res) {
     var country = req.query.country;
+    var get_comments = req.query.get_comments;
+    if (get_comments == undefined || get_comments === "true") {
+      get_comments = true;
+    } else {
+      get_comments = false;
+    }
+
     var filter = {};
 
     if (country) {
       filter.country = country;
     }
 
-    conferencesService.get( filter,  function(items){
+    conferencesService.get( filter, get_comments,  function(items){
       res.status(200).send(items);
     });
   }

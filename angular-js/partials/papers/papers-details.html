@@ -1,9 +1,9 @@
-<div class="container" ng-show="!user.authenticated" >
+<div class="container" ng-hide="!user.authenticated" >
   <div class="alert alert-warning text-center" role="alert"><h3>You need to login</h3></div>
 </div>
 
-<div class="container" ng-show="user.authenticated" >
-      <h1><span class="glyphicon glyphicon-file"></span> {{paper.title}}</h1>
+<div class="container" ng-show!="user.authenticated" >
+  <h1><span class="glyphicon glyphicon-file"></span> {{paper.title}}</h1>
 
   <div class="row voffset2">
     <div class="col-md-2">
@@ -79,6 +79,59 @@
       </a>
     </div>
   </div>
+
+
+  <div class="panel panel-default voffset3">
+    <div class="panel-heading">Submissions</div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4 medium">
+          <ul class="row" data-ng-repeat="subm in paper.submissions">
+            <li>{{subm.conf_name}} ({{subm.year}}) by {{subm.author_name}}</li>
+          </ul>
+        </div>
+        <div class="text-right col-md-8" style="margin-top: 10px;">
+          <a class="btn btn-warning" ng-click="addSubmission()" >
+            <span class="glyphicon glyphicon-plus-sign"></span> Submit this paper to a conference...
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- modal -->
+  <script type="text/ng-template" id="submissionModalForm.html" >
+  <div class="modal-header">
+    <h3 class="modal-title">Select your conference</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form">
+
+    <div class="form-group">
+      <label for="editedSubmission.conference" class="col-sm-3 control-label">Conference:</label>
+      <div class="col-sm-9">
+        <select ng-model="editedSubmission.conference" ng-options="value.name for value in conferences" class="form-control" required>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+    <label for="editedSubmission.year" class="col-sm-3 control-label">Title:</label>
+    <div class="col-sm-9">
+      <input type="number" class="form-control" id="editedSubmission.year" ng-model="editedSubmission.year" placeholder="Year" required>
+    </div>
+    </div>
+
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</script>
+<!-- /modal -->
 
 
 </div>

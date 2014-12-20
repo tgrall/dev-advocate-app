@@ -146,6 +146,7 @@ app.put(api_version + '/conferences', isAuthenticated, conferencesRoutes.create 
 
 
 // ***** Paper Routes *****
+app.put(api_version + '/papers/submission/:id', isAuthenticated, papersRoutes.addSubmission );
 app.get(api_version + '/papers/search', isAuthenticated, papersRoutes.search );
 app.get(api_version + '/papers/:id', isAuthenticated, papersRoutes.getById);
 app.put(api_version + '/papers/:id', isAuthenticated, papersRoutes.update );

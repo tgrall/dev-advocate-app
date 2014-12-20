@@ -110,6 +110,10 @@ papersControllers.controller(
   '$log',
   function ($scope, $http, $routeParams, $window, $modal, $log) {
 
+    $scope.conferences = [];
+    $scope.submitted_at = [];
+
+
     if ($routeParams.id ) {
       $http.get('/api/1.0/papers/'+ $routeParams.id).success(function (item) {
         $scope.paper = item;
@@ -117,11 +121,116 @@ papersControllers.controller(
     }
 
 
+    // open model window
+    $scope.open = function (size) {
+
+      // if no year, select by default current year
+      // TODO : put next year if last quarter
+      $scope.editedSubmission.year = new Date().getFullYear();
+
+      var modalInstance = $modal.open({
+        templateUrl: 'submissionModalForm.html',
+        controller: 'ModalSubmissionFormCtrl',
+        size: size,
+        resolve: {
+          editedSubmission: function () {
+            return $scope.editedSubmission;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (editedSubmission) {
+        $scope.editedSubmission = editedSubmission;
+
+        if ( editedSubmission.id ) {
+
+          // copy the data / if not only updated fields are sent
+          var commentToUpdate = {
+            comment: editedSubmission.comment,
+            attended: editedSubmission.attended,
+            spoke_there: editedSubmission.spoke_there,
+            should_speak: editedSubmission.should_speak,
+            should_sponsor: editedSubmission.should_sponsor,
+            vote: editedSubmission.vote
+          };
+
+          // $http.put('/api/1.0/conferences/comment/'+ $scope.conference._id +"/"+  $scope.editedSubmission.id  , commentToUpdate ).success(function (data) {
+          //   // for simplicity reason refresh page
+          //   $window.location.reload();
+          // });
+
+        } else {
+
+
+          var submissionInfo = {};
+          submissionInfo.conf_id = editedSubmission.conference._id;
+          submissionInfo.conf_name = editedSubmission.conference.name;
+          submissionInfo.year = editedSubmission.year;
+
+          // add new comment to the conference
+          $http.put('/api/1.0/papers/submission/'+ $scope.paper._id , submissionInfo ).success(function (data) {
+            if (data != undefined) {
+              if ($scope.paper.submissions == undefined) {
+                $scope.paper.submissions = [];
+              }
+              $scope.paper.submissions.unshift( data  );
+            }
+          });
+
+
+        }
+
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+    };
+
+    $scope.editComment = function(index) {
+      indexOfeditedSubmission = index;
+      // copy object to controle save
+      var submissionToEdit =  Object.create($scope.conference.comments[index]);
+      $scope.editedSubmission = submissionToEdit;
+      $scope.open();
+    }
+
+    $scope.addSubmission = function() {
+      var submissionToEdit =  {};
+      $scope.editedSubmission = submissionToEdit;
+      $scope.open();
+    }
+
+
   }
   ]
 );
 
+papersControllers.controller(
+  'ModalSubmissionFormCtrl',
+  [
+  '$scope',
+  '$http',
+  '$modalInstance',
+  'editedSubmission',
+  function($scope, $http, $modalInstance, editedSubmission ) {
 
+    $scope.conferences = [];
+
+    // TODO : see if we can load that only once
+    $http.get('/api/1.0/conferences?get_comments=false').success(function (items) {
+      $scope.conferences = items;
+    });
+
+    $scope.editedSubmission = editedSubmission;
+    $scope.ok = function () {
+          $modalInstance.close($scope.editedSubmission);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+  }
+  ]
+);
 
 papersControllers.controller(
   'PapersCreateCtrl',

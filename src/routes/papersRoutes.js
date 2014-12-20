@@ -71,12 +71,32 @@ var PapersRoutes = function(papersService) {
   }
 
 
+  var _addSubmission = function(req, res) {
+    var id = req.params.id; // id of the conference
+    var submission = req.body;
+    var user = req.user;
+
+    if (user == undefined) {
+      res.status(401).send();
+    } else {
+      submission.user = user.userName;
+      submission.author_name = user.displayName;
+      submission.date= new Date();
+      papersService.addSubmission(id, submission , function(result){
+        res.status(201).send(result);
+      });
+    }
+  }
+
+
+
   return {
     get : _get,
     getById: _getById,
     search: _search,
     create: _create,
-    update: _update
+    update: _update,
+    addSubmission: _addSubmission
   }
 
 }

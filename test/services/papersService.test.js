@@ -90,6 +90,24 @@ describe('PapersService', function () {
   });
 
 
+  describe('#addSubmission()', function(){
+    it ('Add Submission to Conference', function( done){
+      var sub1 = { "conf_id" : "javaone" , "conf_name" : "JavaOne" , "year" : 2015  };
+      var sub2 = { "conf_id" : "fosdem" , "conf_name" : "FOSDEM" , "year" : 2015  };
+      papersService.addSubmission(idTest , sub1 , function(){
+        papersService.getById( idTest ,function(item){
+          assert.equal(  item.submissions[0].conf_id ,  sub1.conf_id );
+          papersService.addSubmission(idTest , sub2 , function(){
+            papersService.getById( idTest ,function(item){
+              assert.equal(  item.submissions[1].conf_id ,  sub1.conf_id );
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
   describe('#search()', function () {
     it('search paper by name/information -fts search', function ( done) {
       papersService.search( "tree", {} ,function(items){

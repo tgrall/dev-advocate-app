@@ -59,9 +59,12 @@
           </td>
           <td>
             <span ng-repeat="item in paper.authors">
+              <a ng-href="#/papers/{{paper._id}}">
               <span ng-show="$index != 0">,</span>
               {{item.author.displayName}}
+              </a>
             </span>
+
           </td>
           <td>
             <span  ng-repeat="topic in paper.topics" >

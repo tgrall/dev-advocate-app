@@ -32,10 +32,19 @@ var ConferencesService = function() {
   }
 
 
-  var _get = function(filter, callback) {
+  var _get = function(filter, get_comments, callback) {
     mongoDbConnection(function(connection){
       var collection = connection.collection(COLL);
-      collection.find(filter, {sort : [["name" , "asc"]] } ).toArray(function(err,items){
+
+      var projection = { };
+      if ( ! get_comments ) {
+        projection.comments = 0,
+        projection.nb_of_comments = 0,
+        projection.total_votes = 0,
+        projection.doc_info = 0
+      }
+
+      collection.find(filter, projection,  {sort : [["name" , "asc"]] } ).toArray(function(err,items){
         if (err) throw new Error(err);
         callback(items);
       });
