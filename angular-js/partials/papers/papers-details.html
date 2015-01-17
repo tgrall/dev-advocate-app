@@ -87,7 +87,7 @@
       <div class="row">
         <div class="col-md-4 medium">
           <ul class="row" data-ng-repeat="subm in paper.submissions">
-            <li>{{subm.conf_name}} ({{subm.year}}) by {{subm.author_name}}</li>
+            <li>{{subm.conf_name}} ({{subm.year}}) by {{subm.author_name}} - {{subm.status}}</li>
           </ul>
         </div>
         <div class="text-right col-md-8" style="margin-top: 10px;">
@@ -120,6 +120,14 @@
     <label for="editedSubmission.year" class="col-sm-3 control-label">Title:</label>
     <div class="col-sm-9">
       <input type="number" class="form-control" id="editedSubmission.year" ng-model="editedSubmission.year" placeholder="Year" required>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <label class="col-sm-3 control-label">Status:</label>
+    <div class="col-sm-9 ">
+    <select required ng-model="editedSubmission.status" ng-options="value._id as value.label for value in paperStatus" class="form-control" >
+    </select>
     </div>
     </div>
 

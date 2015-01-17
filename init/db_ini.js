@@ -37,11 +37,10 @@ db.papers.ensureIndex(
 );
 
 db.paper_status.insert([
-  {"_id":"Draft","label":"Draft"}
-  ,{"_id":"Done","label":"Done (ready to be used)"}
-  ,{"_id":"Submitted","label":"Submitted to at least to one conference"}
-  ,{"_id":"Accepted","label":"Accepted by at least one conference"}
-  ]
+   {"_id":"Submitted","label":"Submitted"}
+  ,{"_id":"Accepted","label":"Accepted"}
+  ,{"_id":"Rejected","label":"Rejected"}
+   ]
   , {"ordered" : false});
 
 

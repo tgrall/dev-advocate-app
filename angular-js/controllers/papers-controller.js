@@ -127,6 +127,8 @@ papersControllers.controller(
       // if no year, select by default current year
       // TODO : put next year if last quarter
       $scope.editedSubmission.year = new Date().getFullYear();
+      // TODO : should be dynamic
+      $scope.editedSubmission.status = "Submitted";
 
       var modalInstance = $modal.open({
         templateUrl: 'submissionModalForm.html',
@@ -166,6 +168,7 @@ papersControllers.controller(
           submissionInfo.conf_id = editedSubmission.conference._id;
           submissionInfo.conf_name = editedSubmission.conference.name;
           submissionInfo.year = editedSubmission.year;
+          submissionInfo.status = editedSubmission.status;
 
           // add new comment to the conference
           $http.put('/api/1.0/papers/submission/'+ $scope.paper._id , submissionInfo ).success(function (data) {
@@ -214,6 +217,17 @@ papersControllers.controller(
   function($scope, $http, $modalInstance, editedSubmission ) {
 
     $scope.conferences = [];
+    $scope.paperStatus = [];
+    $scope.authorList = [{}];
+
+    $http.get('/api/1.0/types/paper_status').success(function (items) {
+      $scope.paperStatus = items;
+    });
+
+    $http.get('/api/1.0/speakers/').success(function (items) {
+      $scope.authorList = items
+    });
+
 
     // TODO : see if we can load that only once
     $http.get('/api/1.0/conferences?get_comments=false').success(function (items) {
@@ -245,22 +259,13 @@ papersControllers.controller(
     $scope.technologies = [];
     $scope.topics = [];
     $scope.authorList = null;
-    $scope.authors = [{}];
     $scope.links = [];
     $scope.linkTypes = [];
-    $scope.paperStatus = [];
 
     $http.get('/api/1.0/types/links').success(function (items) {
       $scope.linkTypes = items
     });
 
-    $http.get('/api/1.0/types/paper_status').success(function (items) {
-      $scope.paperStatus = items
-    });
-
-    $http.get('/api/1.0/speakers/').success(function (items) {
-      $scope.authorList = items
-    });
 
     $http.get('/api/1.0/types/technologies').success(function (items) {
       $scope.technologies = items
